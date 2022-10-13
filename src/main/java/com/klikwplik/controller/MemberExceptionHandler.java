@@ -1,5 +1,6 @@
 package com.klikwplik.controller;
 
+import com.klikwplik.exception.MemberAlreadyExists;
 import com.klikwplik.exception.MemberNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class MemberNotFoundAdvice {
+public class MemberExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(MemberNotFoundException.class)
@@ -16,4 +17,9 @@ public class MemberNotFoundAdvice {
     String memberNotFoundHandler(MemberNotFoundException ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(MemberAlreadyExists.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String memberAlreadyExistsHandler(MemberAlreadyExists ex) { return ex.getMessage();}
 }

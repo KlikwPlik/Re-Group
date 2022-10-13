@@ -18,6 +18,7 @@ public class LoadDatabase {
             log.info("Preloading " + repository.save(new Member("Klaudiusz", "Lepcis", Utils.randomLatitude(), Utils.randomLongitude())));
             log.info("Preloading " + repository.save(new Member("Tytus", "Raete", Utils.randomLatitude(), Utils.randomLongitude())));
             log.info("Preloading " + repository.save(new Member("Decjusz", "Nikopolis", Utils.randomLatitude(), Utils.randomLongitude())));
+            log.info("Preloading " + repository.save(new Member("Walentynian", "Iliria", Utils.randomLatitude(), Utils.randomLongitude())));
         };
     }
 }

@@ -1,54 +1,52 @@
 package com.klikwplik.controller;
 
+import com.klikwplik.conventer.MemberConverter;
+import com.klikwplik.dto.MemberDto;
 import com.klikwplik.entity.Member;
 import com.klikwplik.exception.MemberNotFoundException;
-import com.klikwplik.repository.MemberRepository;
+import com.klikwplik.service.MemberService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/members")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final MemberConverter memberConverter;
 
-    public MemberController(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public MemberController(MemberService memberService, MemberConverter memberConverter) {
+        this.memberService = memberService;
+        this.memberConverter = memberConverter;
     }
 
-    @GetMapping("/members")
-    List<Member> all() {
-        return memberRepository.findAll();
+    @GetMapping
+    public List<MemberDto> all() {
+        return memberConverter.convertList(memberService.getAll());
     }
 
-    @GetMapping("/members/{id}")
-    Member getOne(@PathVariable Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+    @GetMapping("/{id}")
+    public MemberDto getOne(@PathVariable Long id) {
+        return memberConverter.convert(memberService.getMember(id).orElseThrow(() -> new MemberNotFoundException(id)));
     }
 
-    @PostMapping("/members")
-    Member newMember(@RequestBody Member newMember) {
-        return memberRepository.save(newMember);
+    @PostMapping()
+    public ResponseEntity<MemberDto> newMember(@RequestBody Member newMember) {
+        return new ResponseEntity<>(memberConverter.convert(memberService.saveMember(newMember)),
+                HttpStatus.CREATED);
     }
 
-    @PutMapping("/members/{id}")
-    Member updateMember(@RequestBody Member updatedMember, @PathVariable Long id) {
-        return memberRepository.findById(id)
-                .map(member -> {
-                    member.setFirstName(updatedMember.getFirstName());
-                    member.setLastName(updatedMember.getLastName());
-                    member.setLongitude(updatedMember.getLongitude());
-                    member.setLatitude(updatedMember.getLatitude());
-                    return memberRepository.save(updatedMember);
-                })
-                .orElseGet(() -> {
-                    updatedMember.setId(id);
-                    return memberRepository.save(updatedMember);
-                });
+    @PutMapping("/{id}")
+    public MemberDto updateMember(@RequestBody Member updatedMember, @PathVariable Long id) {
+        return memberConverter.convert(memberService.updateMember(updatedMember, id));
     }
 
-    @DeleteMapping("/members/{id}")
-    void deleteMember(@PathVariable Long id) {
-        memberRepository.deleteById(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteMember(@PathVariable Long id) {
+        memberService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
