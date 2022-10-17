@@ -26,12 +26,23 @@ public class Member {
     private double longitude;
     @Column(name = "latitude", nullable = false)
     private double latitude;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="gang_id", nullable = true)
+    private Gang gang;
 
     public Member(String firstName, String lastName, double longitude, double latitude) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Member(String firstName, String lastName, double longitude, double latitude, Gang gang) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.gang = gang;
     }
 
     @Override
@@ -42,7 +53,12 @@ public class Member {
                 ", lastName='" + lastName + '\'' +
                 ", longitude=" + limitDigits(longitude) +
                 ", latitude=" + limitDigits(latitude) +
+                 ", gang=" + getGang() +
                 '}';
+    }
+
+    private String getGang() {
+        return gang != null ? gang.getName() : "In a gang unknown!";
     }
 
     private String limitDigits(double number ) {

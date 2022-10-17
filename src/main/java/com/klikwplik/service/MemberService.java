@@ -20,5 +20,4 @@ public interface MemberService {
 
     void deleteById(Long id);
 
-//    List<Member> getAllOrderByFirstNameAsc();
 }

@@ -71,8 +71,4 @@ public class MemberServiceImpl implements MemberService {
         }
         return members;
     }
-
-//    public List<Member> getAllOrderByFirstNameAsc() {
-//        return memberRepository.findAllOrderByFirstNameAsc();
-//    }
 }
