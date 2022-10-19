@@ -1,6 +1,7 @@
 package com.klikwplik.service;
 
 import com.klikwplik.entity.Gang;
+import com.klikwplik.entity.Member;
 import com.klikwplik.exception.GangAlreadyExists;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface GangService {
     Gang updateGang(Gang gang, Long id);
 
     void deleteById(Long id);
+
+    Optional<Gang> findById(Long gangId);
 }

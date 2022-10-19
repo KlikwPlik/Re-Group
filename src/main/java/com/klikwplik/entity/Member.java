@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class Member {
 
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "first_name", nullable = false)
@@ -27,7 +28,7 @@ public class Member {
     @Column(name = "latitude", nullable = false)
     private double latitude;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="gang_id", nullable = true)
+    @JoinColumn(name="gang_id")
     private Gang gang;
 
     public Member(String firstName, String lastName, double longitude, double latitude) {
@@ -53,12 +54,8 @@ public class Member {
                 ", lastName='" + lastName + '\'' +
                 ", longitude=" + limitDigits(longitude) +
                 ", latitude=" + limitDigits(latitude) +
-                 ", gang=" + getGang() +
+                 ", gang=" + gang.getName() +
                 '}';
-    }
-
-    private String getGang() {
-        return gang != null ? gang.getName() : "In a gang unknown!";
     }
 
     private String limitDigits(double number ) {

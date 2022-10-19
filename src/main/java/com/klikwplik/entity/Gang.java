@@ -6,8 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -23,8 +24,8 @@ public class Gang {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gang")
-    private Set<Member> members = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gang", cascade = CascadeType.ALL)
+    private Set<Member> members;
     @Column(name = "longitude", nullable = false)
     private double longitude;
     @Column(name = "latitude", nullable = false)
@@ -42,9 +43,21 @@ public class Gang {
         return "Gang{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", members=" + members +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gang gang = (Gang) o;
+        return Double.compare(gang.longitude, longitude) == 0 && Double.compare(gang.latitude, latitude) == 0 && id.equals(gang.id) && name.equals(gang.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, longitude, latitude);
     }
 }

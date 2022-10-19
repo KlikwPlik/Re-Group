@@ -1,10 +1,8 @@
 package com.klikwplik.dto;
 
-import com.klikwplik.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -15,5 +13,6 @@ public class GangDto {
     private double longitude;
     private double latitude;
     private String name;
-    private Set<Member> members = new HashSet<>();
+    private Set<Long> membersIds;
+    private Set<String> membersNames;
 }

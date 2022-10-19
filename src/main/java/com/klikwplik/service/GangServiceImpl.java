@@ -1,23 +1,24 @@
 package com.klikwplik.service;
 
 import com.klikwplik.entity.Gang;
-import com.klikwplik.entity.Member;
 import com.klikwplik.exception.GangAlreadyExists;
-import com.klikwplik.exception.GangNotFoundException;
 import com.klikwplik.repository.GangRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+@Slf4j
 @Service
 public class GangServiceImpl implements GangService {
 
     private final GangRepository gangRepository;
+    private final MemberService memberService;
 
-    public GangServiceImpl(GangRepository gangRepository) {
+    public GangServiceImpl(GangRepository gangRepository, MemberService memberService) {
         this.gangRepository = gangRepository;
+        this.memberService = memberService;
     }
 
     @Override
@@ -53,11 +54,11 @@ public class GangServiceImpl implements GangService {
     public Gang updateGang(Gang updatedGang, Long id) {
         return gangRepository.findById(id)
                 .map(retrievedGang -> {
+                    retrievedGang.setId(id);
                     retrievedGang.setName(updatedGang.getName());
                     retrievedGang.setLongitude(updatedGang.getLongitude());
                     retrievedGang.setLatitude(updatedGang.getLatitude());
-                    retrievedGang.setMembers(updatedGang.getMembers());
-                    return gangRepository.save(updatedGang);
+                    return gangRepository.save(retrievedGang);
                 })
                 .orElseGet(() -> {
                     updatedGang.setId(id);
@@ -65,15 +66,10 @@ public class GangServiceImpl implements GangService {
                 });
     }
 
-    public Gang addMemberToGang(Long gangId, Member member) {
-        return getGang(gangId).map(gang -> {
-            Set<Member> gangMembers = gang.getMembers();
-            gangMembers.add(member);
-            gang.setMembers(gangMembers);
-            return gangRepository.save(gang);
-        }).orElseThrow(() -> new GangNotFoundException(gangId));
+    @Override
+    public Optional<Gang> findById(Long gangId) {
+        return gangRepository.findById(gangId);
     }
-
 
     @Override
     public void deleteById(Long id) {

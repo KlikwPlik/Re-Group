@@ -40,35 +40,4 @@ public class GangServiceTest {
         Optional<Gang> foundGang = gangService.getGang(1L);
         assertThat(foundGang).isNotNull();
     }
-
-    @Test
-    void givenGang_whenAddMember_thenReturnUpdatedGang() {
-        Member member = Member.builder()
-                .id(1L)
-                .firstName("Neron")
-                .lastName("Domusaurera")
-                .longitude(37.497335)
-                .latitude(14.938263)
-                .build();
-        Gang emptyGang = Gang.builder()
-                .id(1L)
-                .name("Rome")
-                .longitude(37.464267)
-                .latitude(15.001517)
-                .members(new HashSet<>())
-                .build();
-        Gang gang = Gang.builder()
-                .id(1L)
-                .name("Rome")
-                .longitude(37.464267)
-                .latitude(15.001517)
-                .members(Set.of(member))
-                .build();
-        given(gangRepository.findById(1L)).willReturn(Optional.of(emptyGang));
-        given(gangRepository.save(gang)).willReturn(gang);
-        Gang enlargedGang = gangService.addMemberToGang(1L, member);
-        assertEquals(enlargedGang.getMembers().size(), 1);
-        assertTrue(enlargedGang.getMembers().contains(member));
-    }
-
 }

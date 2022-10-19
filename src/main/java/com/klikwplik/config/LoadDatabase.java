@@ -10,7 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Set;
+import java.util.Collections;
 
 @Slf4j
 @Configuration
@@ -18,7 +18,7 @@ public class LoadDatabase {
 
     @Bean
     public CommandLineRunner init(MemberRepository memberRepository, GangRepository gangRepository) {
-        Gang gang = new Gang("Rome", Set.of(new Member("Neron", "Domusaurera", Utils.randomLongitude(), Utils.randomLatitude())), Utils.randomLatitude(), Utils.randomLongitude());
+        Gang gang = new Gang("Rome", Collections.emptySet(), Utils.randomLatitude(), Utils.randomLongitude());
         return (args) -> {
             log.info("Preloading " + gangRepository.save(gang));
             log.info("Preloading " + memberRepository.save(new Member("Klaudiusz", "Lepcis", Utils.randomLatitude(), Utils.randomLongitude(), gang)));

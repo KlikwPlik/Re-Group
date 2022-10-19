@@ -20,4 +20,5 @@ public interface MemberService {
 
     void deleteById(Long id);
 
+    Optional<Member> findById(Long id);
 }

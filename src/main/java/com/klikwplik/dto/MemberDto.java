@@ -3,6 +3,7 @@ package com.klikwplik.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 public class MemberDto {
@@ -12,4 +13,6 @@ public class MemberDto {
     private String lastName;
     private double longitude;
     private double latitude;
+    private Long gangId;
+    private String gangName;
 }
