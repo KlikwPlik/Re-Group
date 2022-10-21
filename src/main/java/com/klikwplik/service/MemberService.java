@@ -2,6 +2,7 @@ package com.klikwplik.service;
 
 import com.klikwplik.entity.Member;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,8 @@ public interface MemberService {
     void deleteById(Long id);
 
     Optional<Member> findById(Long id);
+
+    List<Member> findByGangId(long id);
+
+    void deleteByGangId(long id);
 }

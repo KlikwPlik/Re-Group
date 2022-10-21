@@ -13,6 +13,5 @@ public class GangDto {
     private double longitude;
     private double latitude;
     private String name;
-    private Set<Long> membersIds;
-    private Set<String> membersNames;
+    private Set<MemberDto> members;
 }

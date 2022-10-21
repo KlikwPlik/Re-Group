@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -24,16 +22,13 @@ public class Gang {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gang", cascade = CascadeType.ALL)
-    private Set<Member> members;
     @Column(name = "longitude", nullable = false)
     private double longitude;
     @Column(name = "latitude", nullable = false)
     private double latitude;
 
-    public Gang(String name, Set<Member> members, double longitude, double latitude) {
+    public Gang(String name, double longitude, double latitude) {
         this.name = name;
-        this.members = members;
         this.longitude = longitude;
         this.latitude = latitude;
     }

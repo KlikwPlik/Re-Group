@@ -18,7 +18,7 @@ public class LoadDatabase {
 
     @Bean
     public CommandLineRunner init(MemberRepository memberRepository, GangRepository gangRepository) {
-        Gang gang = new Gang("Rome", Collections.emptySet(), Utils.randomLatitude(), Utils.randomLongitude());
+        Gang gang = new Gang("Rome", Utils.randomLatitude(), Utils.randomLongitude());
         return (args) -> {
             log.info("Preloading " + gangRepository.save(gang));
             log.info("Preloading " + memberRepository.save(new Member("Klaudiusz", "Lepcis", Utils.randomLatitude(), Utils.randomLongitude(), gang)));

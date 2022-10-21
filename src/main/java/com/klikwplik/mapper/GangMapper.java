@@ -2,13 +2,10 @@ package com.klikwplik.mapper;
 
 import com.klikwplik.dto.GangDto;
 import com.klikwplik.entity.Gang;
-
-import com.klikwplik.entity.Member;
 import com.klikwplik.service.MemberService;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -16,8 +13,11 @@ public class GangMapper {
 
     private final MemberService memberService;
 
-    public GangMapper(MemberService memberService) {
+    private final MemberMapper memberMapper;
+
+    public GangMapper(MemberService memberService, MemberMapper memberMapper) {
         this.memberService = memberService;
+        this.memberMapper = memberMapper;
     }
 
     public GangDto mapToDto(Gang source) {
@@ -27,8 +27,10 @@ public class GangMapper {
         result.setLongitude(source.getLongitude());
         result.setLatitude(source.getLatitude());
         result.setName(source.getName());
-        result.setMembersIds(source.getMembers().stream().map(Member::getId).collect(Collectors.toSet()));
-        result.setMembersNames(source.getMembers().stream().map(member -> member.getFirstName() + " " + member.getLastName()).collect(Collectors.toSet()));
+        result.setMembers(memberService.findByGangId(source.getId())
+                .stream()
+                .map(memberMapper::mapToDto)
+                .collect(Collectors.toSet()));
         return result;
     }
 
@@ -37,7 +39,6 @@ public class GangMapper {
         Gang result = new Gang();
         result.setId(source.getId());
         result.setName(source.getName());
-        result.setMembers(source.getMembersIds().stream().map(memberService::findById).map(Optional::orElseThrow).collect(Collectors.toSet()));
         result.setLongitude(source.getLongitude());
         result.setLatitude(source.getLatitude());
         return result;

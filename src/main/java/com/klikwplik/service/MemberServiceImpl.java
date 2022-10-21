@@ -2,6 +2,7 @@ package com.klikwplik.service;
 
 import com.klikwplik.entity.Member;
 import com.klikwplik.exception.MemberAlreadyExists;
+import com.klikwplik.exception.MemberNotFoundException;
 import com.klikwplik.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +48,7 @@ public class MemberServiceImpl implements MemberService {
                     retrievedMember.setLatitude(updatedMember.getLatitude());
                     return memberRepository.save(updatedMember);
                 })
-                .orElseGet(() -> {
-                    updatedMember.setId(id);
-                    return memberRepository.save(updatedMember);
-                });
+                .orElseThrow(() -> new MemberNotFoundException(id));
     }
 
     @Override
@@ -61,6 +59,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
+    }
+
+    @Override
+    public List<Member> findByGangId(long id) {
+        return memberRepository.findByGangId(id);
+    }
+
+    @Override
+    public void deleteByGangId(long id) {
+        memberRepository.deleteByGangId(id);
     }
 
     @Override
