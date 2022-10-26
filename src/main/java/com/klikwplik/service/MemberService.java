@@ -2,7 +2,6 @@ package com.klikwplik.service;
 
 import com.klikwplik.entity.Member;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 

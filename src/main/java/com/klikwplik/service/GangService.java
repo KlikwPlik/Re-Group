@@ -1,7 +1,6 @@
 package com.klikwplik.service;
 
 import com.klikwplik.entity.Gang;
-import com.klikwplik.entity.Member;
 import com.klikwplik.exception.GangAlreadyExists;
 
 import java.util.List;

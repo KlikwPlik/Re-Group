@@ -3,22 +3,21 @@ package com.klikwplik.mapper;
 import com.klikwplik.dto.GangDto;
 import com.klikwplik.entity.Gang;
 import com.klikwplik.service.MemberService;
+import com.klikwplik.service.StorageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class GangMapper {
 
     private final MemberService memberService;
-
     private final MemberMapper memberMapper;
-
-    public GangMapper(MemberService memberService, MemberMapper memberMapper) {
-        this.memberService = memberService;
-        this.memberMapper = memberMapper;
-    }
+    private final StorageService storageService;
+    private final StorageMapper storageMapper;
 
     public GangDto mapToDto(Gang source) {
         Objects.requireNonNull(source, "Source gang can't be null.");
@@ -31,6 +30,10 @@ public class GangMapper {
                 .stream()
                 .map(memberMapper::mapToDto)
                 .collect(Collectors.toSet()));
+        result.setStorages(storageService.findByGangId(source.getId())
+                .stream()
+                .map(storageMapper::mapToDto)
+                .collect(Collectors.toList()));
         return result;
     }
 
