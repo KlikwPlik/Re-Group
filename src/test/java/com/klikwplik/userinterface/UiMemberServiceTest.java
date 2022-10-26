@@ -1,8 +1,12 @@
-package com.klikwplik.service;
+package com.klikwplik.userinterface;
 
 import com.klikwplik.entity.Coordinates;
 import com.klikwplik.entity.Gang;
 import com.klikwplik.entity.Member;
+import com.klikwplik.service.CoordinatesService;
+import com.klikwplik.service.MemberService;
+import com.klikwplik.service.ResourceService;
+import com.klikwplik.service.StorageService;
 import com.klikwplik.userinterface.UiMemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +40,7 @@ public class UiMemberServiceTest {
     private Gang gang;
     private Member member;
     private Member member1;
+    private Member member2;
     private Coordinates coordinates;
 
     @BeforeEach
@@ -55,6 +60,14 @@ public class UiMemberServiceTest {
                 .lastName("Palmyry")
                 .longitude(37.535868)
                 .latitude(15.002046)
+                .gang(gang)
+                .build();
+        member2 = Member.builder()
+                .id(2L)
+                .firstName("Kaligula")
+                .lastName("Eskwilina")
+                .longitude(37.535918)
+                .latitude(15.012746)
                 .gang(gang)
                 .build();
         coordinates = Coordinates.builder()
