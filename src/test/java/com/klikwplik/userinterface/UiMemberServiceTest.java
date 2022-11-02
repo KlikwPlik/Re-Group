@@ -45,31 +45,7 @@ public class UiMemberServiceTest {
 
     @BeforeEach
     void setup() {
-        gang = new Gang(1L, "Rome", 37.559180, 15.175465);
-        member = Member.builder()
-                .id(1L)
-                .firstName("Probus")
-                .lastName("Sirmium")
-                .longitude(37.459380)
-                .latitude(15.082465)
-                .gang(gang)
-                .build();
-        member1 = Member.builder()
-                .id(2L)
-                .firstName("Aurelian")
-                .lastName("Palmyry")
-                .longitude(37.535868)
-                .latitude(15.002046)
-                .gang(gang)
-                .build();
-        member2 = Member.builder()
-                .id(2L)
-                .firstName("Kaligula")
-                .lastName("Eskwilina")
-                .longitude(37.535918)
-                .latitude(15.012746)
-                .gang(gang)
-                .build();
+
         coordinates = Coordinates.builder()
                 .id(1L)
                 .longitude(37.159600)
@@ -80,21 +56,13 @@ public class UiMemberServiceTest {
 
     @Test
     void givenMemberObject_whenMoveMember_thenReturnUpdatedMemberObject() {
-        Member updatedMember = Member.builder()
-                .id(1L)
-                .firstName("Probus")
-                .lastName("Sirmium")
-                .longitude(coordinates.getLongitude())
-                .latitude(coordinates.getLatitude())
-                .gang(gang)
-                .build();
+
         given(memberService.findById(1L)).willReturn(Optional.ofNullable(member));
         given(coordinatesService.findById(1L)).willReturn(Optional.ofNullable(coordinates));
         given(memberService.updateMember(member, member.getId())).willReturn(updatedMember);
 
-        memberService.updateMember(member, member.getId());
-
         Member moveMember = uiMemberService.moveMember(1L, 1L);
+
         assertEquals(coordinates.getLongitude(), moveMember.getLongitude());
         assertEquals(coordinates.getLatitude(), moveMember.getLatitude());
     }

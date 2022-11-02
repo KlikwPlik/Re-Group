@@ -39,20 +39,7 @@ public class MemberControllerTest {
 
     @Test
     public void shouldReturnAllMembersTest() throws Exception {
-        Member member1 = Member.builder()
-                .id(2L)
-                .firstName("Tytus")
-                .lastName("Raete")
-                .longitude(37.535868)
-                .latitude(15.002046)
-                .build();
-        Member member2 = Member.builder()
-                .id(1L)
-                .firstName("Klaudiusz")
-                .lastName("Lepcis")
-                .longitude(37.425392)
-                .latitude(15.012435)
-                .build();
+
         given(service.getAll()).willReturn(List.of(member1, member2));
         mvc.perform(get("/api/members"))
                 .andExpect(status().isOk())
@@ -62,13 +49,7 @@ public class MemberControllerTest {
 
     @Test
     public void shouldReturnOneMemberTest() throws Exception {
-        Member member1 = Member.builder()
-                .id(2L)
-                .firstName("Tytus")
-                .lastName("Raete")
-                .longitude(37.535868)
-                .latitude(15.002046)
-                .build();
+
         given(service.getMember(member1.getId())).willReturn(Optional.of(member1));
         mvc.perform(get("/api/members/2")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -86,13 +67,7 @@ public class MemberControllerTest {
 
     @Test
     public void shouldCreateMember() throws Exception {
-        Member member2 = Member.builder()
-                .id(1L)
-                .firstName("Klaudiusz")
-                .lastName("Lepcis")
-                .longitude(37.425392)
-                .latitude(15.012435)
-                .build();
+
         when(service.saveMember(member2)).thenReturn(member2);
         mvc.perform(post("/api/members")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -103,20 +78,7 @@ public class MemberControllerTest {
 
     @Test
     public void shouldUpdateMember() throws Exception {
-        Member member1 = Member.builder()
-                .id(2L)
-                .firstName("Tytus")
-                .lastName("Raete")
-                .longitude(37.535868)
-                .latitude(15.002046)
-                .build();
-        Member updatedMember1 = Member.builder()
-                .id(2L)
-                .firstName("Mesi")
-                .lastName("Vesuvpesincend")
-                .longitude(37.535878)
-                .latitude(15.002046)
-                .build();
+
         when(service.getMember(2L)).thenReturn(Optional.of(member1));
         when(service.updateMember(updatedMember1, 2L)).thenReturn(updatedMember1);
         mvc.perform(put("/api/members/2").contentType(MediaType.APPLICATION_JSON)

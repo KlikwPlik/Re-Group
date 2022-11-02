@@ -43,7 +43,7 @@ public class LoadDatabase {
     private void addResourcesToCoordinates(ResourceRepository resourceRepository) {
         log.info("Adding resources to coordinates");
         for (int i = 0; i < 100; i++) {
-            resourceRepository.save(new Resource(10L, ThreadLocalRandom.current().nextLong(), "Money", (long) i));
+            resourceRepository.save(new Resource(10L, ThreadLocalRandom.current().nextLong(), ResourceName.MONEY, (long) i));
         }
     }
 }

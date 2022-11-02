@@ -32,8 +32,6 @@ public class UiMemberService {
         Coordinates coordinates = coordinatesService.findById(coordinatesId).orElseThrow(() -> new CoordinatesNotFoundException(coordinatesId));
         move(member, coordinates);
         Resource resource = resourceService.findByCoordinatesId(coordinates.getId()).orElseThrow(() -> new ResourceNotFoundException(coordinates));
-        String resourceName = resource.getName();
-        Long resourceAmount = resource.getAmount();
         resourceService.deleteById(resource.getId());
         Gang gang = member.getGang();
         Storage storage = storageService.findByGangId

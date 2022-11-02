@@ -16,17 +16,18 @@ public class Resource {
     private Long id;
     private Long radius;
     private Long amount;
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ResourceName resourceName;
     @Column(name = "coordinates_id")
     private Long coordinatesId;
 
     public Resource() {
     }
 
-    public Resource(Long radius, Long amount, String name, Long coordinatesId) {
+    public Resource(Long radius, Long amount, ResourceName resourceName, Long coordinatesId) {
         this.radius = radius;
         this.amount = amount;
-        this.name = name;
+        this.resourceName = resourceName;
         this.coordinatesId = coordinatesId;
     }
 }

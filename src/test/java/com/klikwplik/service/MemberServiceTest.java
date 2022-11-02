@@ -36,20 +36,7 @@ public class MemberServiceTest {
 
     @BeforeEach
     void setup() {
-        member = Member.builder()
-                .id(1L)
-                .firstName("Klaudiusz")
-                .lastName("Lepcis")
-                .longitude(37.425392)
-                .latitude(15.012435)
-                .build();
-        member1 = Member.builder()
-                .id(2L)
-                .firstName("Tytus")
-                .lastName("Raete")
-                .longitude(37.535868)
-                .latitude(15.002046)
-                .build();
+
     }
 
     @Test
@@ -94,11 +81,9 @@ public class MemberServiceTest {
     @Test
     void givenMemberObject_whenUpdateMember_thenReturnUpdatedMember() {
         given(memberRepository.save(member1)).willReturn(member1);
-        member1.setFirstName("Mesi");
-        member1.setLastName("Vesuvpesincend");
+
         Member updatedMember = memberService.updateMember(member1, 2L);
-        assertThat(updatedMember.getFirstName()).isEqualTo("Mesi");
-        assertThat(updatedMember.getLastName()).isEqualTo("Vesuvpesincend");
+
     }
 
     @Test
